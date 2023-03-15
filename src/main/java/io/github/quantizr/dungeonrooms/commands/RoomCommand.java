@@ -412,6 +412,32 @@ public class RoomCommand extends CommandBase {
                                 player.addChatMessage(new ChatComponentText("You are not looking at anything"));
                             }
                             break;
+                        case "warp":
+                            if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && mc.objectMouseOver.getBlockPos() != null) {
+                                BlockPos viewingPos = MapUtils.actualToRelative(mc.objectMouseOver.getBlockPos(), RoomDetection.roomDirection, RoomDetection.roomCorner);
+                                    player.addChatMessage(new ChatComponentText("{\n" +
+                                            "  \"secretName\":\"# - Warp\",\n" +
+                                            "  \"category\":\"warp\",\n" +
+                                            "  \"x\":" + viewingPos.getX() + ",\n" +
+                                            "  \"y\":" + viewingPos.getY() + ",\n" +
+                                            "  \"z\":" + viewingPos.getZ() + "\n" +
+                                            "}"));
+                                    Toolkit.getDefaultToolkit()
+                                            .getSystemClipboard()
+                                            .setContents(
+                                                    new StringSelection("{\n" +
+                                                            "  \"secretName\":\"# - Warp\",\n" +
+                                                            "  \"category\":\"warp\",\n" +
+                                                            "  \"x\":" + viewingPos.getX() + ",\n" +
+                                                            "  \"y\":" + viewingPos.getY() + ",\n" +
+                                                            "  \"z\":" + viewingPos.getZ() + "\n" +
+                                                            "}"),
+                                                    null
+                                            );
+                            } else {
+                                player.addChatMessage(new ChatComponentText("You are not looking at anything"));
+                            }
+                            break;
                         case "wither":
                             if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && mc.objectMouseOver.getBlockPos() != null) {
                                 BlockPos viewingPos = MapUtils.actualToRelative(mc.objectMouseOver.getBlockPos(), RoomDetection.roomDirection, RoomDetection.roomCorner);
@@ -600,7 +626,7 @@ public class RoomCommand extends CommandBase {
                             break;
                         default:
                             player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED
-                                    + "Dungeon Rooms: Valid options are <chest | wither | superboom | lever | fairysoul | item | entrance | bat | stonk>"));
+                                    + "Dungeon Rooms: Valid options are <chest | wither | superboom | lever | fairysoul | item | entrance | bat | warp>"));
                             break;
                     }
                     break;
